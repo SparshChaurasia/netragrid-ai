@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, MapPin, CheckCircle2, PhoneCall, ExternalLink, X } from 'lucide-react';
+import { Clock, MapPin, CheckCircle2, PhoneCall, ExternalLink, X, Building2 } from 'lucide-react';
 import type { Incident } from '../../types';
 import { useApp } from '../../context/AppContext';
 
@@ -97,6 +97,12 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident }) => {
             <Clock className="w-3 h-3 text-[#0B7FF5]" />
             <span>{new Date(incident.detectedAt).toLocaleTimeString()}</span>
           </div>
+          {incident.hospitalRecommendation && (
+            <div className="flex items-center space-x-1 text-[10px] font-mono text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 mt-1">
+              <Building2 className="w-3 h-3 text-emerald-600 shrink-0" />
+              <span className="truncate font-semibold">{incident.hospitalRecommendation.name} ({incident.hospitalRecommendation.beds.icuBedsAvailable} ICU free)</span>
+            </div>
+          )}
         </div>
       </div>
 

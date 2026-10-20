@@ -18,6 +18,46 @@ export interface IncidentTimelineEvent {
   type: 'detection' | 'alert' | 'acknowledgement' | 'dispatch' | 'dismissal' | 'telephony' | 'system';
 }
 
+export interface HospitalBedAvailability {
+  icuBedsTotal: number;
+  icuBedsAvailable: number;
+  ventilatorBedsTotal: number;
+  ventilatorBedsAvailable: number;
+  emergencyTraumaBedsTotal: number;
+  emergencyTraumaBedsAvailable: number;
+  lastUpdated: string;
+}
+
+export interface HospitalFacility {
+  id: string;
+  name: string;
+  type: 'GOVERNMENT' | 'PRIVATE' | 'AUTONOMOUS_AIIMS';
+  traumaLevel: 'LEVEL_1' | 'LEVEL_2' | 'LEVEL_3';
+  address: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  phone: string;
+  distanceKm: number;
+  estimatedEtaMinutes: number;
+  beds: HospitalBedAvailability;
+  isEligibleFor108: boolean;
+  sourceUrl?: string;
+  extractionLatencyMs?: number;
+}
+
+export interface HospitalBedQueryResult {
+  accidentLocation: string;
+  accidentCoordinates: { lat: number; lng: number };
+  queryTimestamp: string;
+  provider: 'TINYFISH_AGENT' | 'FALLBACK_REGIONAL_CACHE';
+  status: 'SUCCESS' | 'PARTIAL' | 'ERROR';
+  hospitals: HospitalFacility[];
+  recommendedHospital: HospitalFacility | null;
+  rawTinyfishSummary?: string;
+}
+
 export interface Incident {
   id: string;
   cameraId: string;
@@ -39,6 +79,9 @@ export interface Incident {
   videoClipUrl: string;
   boundingBoxes: BoundingBox[];
   timeline: IncidentTimelineEvent[];
+  hospitalRecommendation?: HospitalFacility;
+  hospitalQueryResult?: HospitalBedQueryResult;
+  isHospitalQuerying?: boolean;
   dispatchDetails?: {
     responder: string;
     phone: string;
@@ -46,6 +89,7 @@ export interface Incident {
     language: string;
     callDuration?: number;
     callStatus: 'queued' | 'ringing' | 'answered' | 'completed' | 'failed';
+    destinationHospital?: string;
   };
 }
 
