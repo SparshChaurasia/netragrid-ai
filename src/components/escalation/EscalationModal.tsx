@@ -426,43 +426,44 @@ export const EscalationModal: React.FC = () => {
             </div>
           )}
 
-          {/* Action Buttons - Always visible at bottom, never cropped */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-            {/* Button 3a: Dismiss */}
-            <button
-              onClick={() => dismissIncident(inc.id)}
-              className="py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition-calm flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
-              title="The AI false flagged and no accident occurred visibly"
-            >
-              <X className="w-4 h-4 text-slate-500" />
-              <span>DISMISS</span>
-            </button>
+        </div>
 
-            {/* Button 3b: Acknowledge */}
-            <button
-              onClick={() => acknowledgeIncident(inc.id)}
-              disabled={inc.status === 'ACKNOWLEDGED'}
-              className={`py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-calm flex items-center justify-center space-x-1.5 cursor-pointer ${
-                inc.status === 'ACKNOWLEDGED'
-                  ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20'
-              }`}
-              title="To acknowledge that incident has taken place but due to lack of severity immediate action is not taken"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>ACKNOWLEDGE</span>
-            </button>
+        {/* Action Buttons - Sticky footer, always visible */}
+        <div className="shrink-0 border-t border-slate-200 bg-white px-5 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {/* Button 3a: Dismiss */}
+          <button
+            onClick={() => dismissIncident(inc.id)}
+            className="py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition-calm flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
+            title="The AI false flagged and no accident occurred visibly"
+          >
+            <X className="w-4 h-4 text-slate-500" />
+            <span>DISMISS</span>
+          </button>
 
-            {/* Button 3c: Dispatch Help */}
-            <button
-              onClick={() => dispatchIncident(inc.id, '112 ERSS & 108 CATS')}
-              className="py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-700 text-white transition-calm flex items-center justify-center space-x-1.5 shadow-md shadow-emerald-600/25 cursor-pointer"
-              title="Dispatch emergency ambulance and first responders immediately"
-            >
-              <PhoneCall className="w-4 h-4" />
-              <span>DISPATCH HELP</span>
-            </button>
-          </div>
+          {/* Button 3b: Acknowledge */}
+          <button
+            onClick={() => acknowledgeIncident(inc.id)}
+            disabled={inc.status === 'ACKNOWLEDGED'}
+            className={`py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-calm flex items-center justify-center space-x-1.5 cursor-pointer ${
+              inc.status === 'ACKNOWLEDGED'
+                ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20'
+            }`}
+            title="To acknowledge that incident has taken place but due to lack of severity immediate action is not taken"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            <span>ACKNOWLEDGE</span>
+          </button>
+
+          {/* Button 3c: Dispatch Help */}
+          <button
+            onClick={() => dispatchIncident(inc.id, '112 ERSS & 108 CATS')}
+            className="py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-700 text-white transition-calm flex items-center justify-center space-x-1.5 shadow-md shadow-emerald-600/25 cursor-pointer"
+            title="Dispatch emergency ambulance and first responders immediately"
+          >
+            <PhoneCall className="w-4 h-4" />
+            <span>DISPATCH HELP</span>
+          </button>
         </div>
 
       </div>
