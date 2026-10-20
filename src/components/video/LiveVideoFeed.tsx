@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff, Radio, RefreshCw, Shield, Camera, Film } from 'lucide-react';
+import { Radio, RefreshCw, Shield, Camera, Film } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const LiveVideoFeed: React.FC = () => {
@@ -50,43 +50,44 @@ export const LiveVideoFeed: React.FC = () => {
   return (
     <div className="bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col font-sans shadow-xs">
       {/* Top Header with 3 Camera Selector & Controls */}
-      <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md text-xs font-mono text-[#0B7FF5] font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#0B7FF5] animate-pulse" />
-            <span>LIVE CCTV</span>
+      <div className="px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
+        <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1 max-w-full">
+          <div className="flex items-center space-x-2 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md text-xs font-mono text-[#0B7FF5] font-bold shrink-0 whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0B7FF5] animate-pulse shrink-0" />
+            <span className="whitespace-nowrap">LIVE CCTV</span>
           </div>
 
           {/* Camera Selector Dropdown (3 Cameras) */}
-          <div className="flex items-center space-x-1.5">
-            <Camera className="w-4 h-4 text-slate-500" />
+          <div className="flex items-center space-x-1.5 min-w-0 flex-1">
+            <Camera className="w-4 h-4 text-slate-500 shrink-0" />
             <select
               value={selectedCameraId}
               onChange={(e) => setSelectedCameraId(e.target.value)}
-              className="bg-white border border-slate-300 hover:border-[#0B7FF5] text-slate-900 text-xs font-semibold rounded-lg px-2.5 py-1 font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 transition-calm"
+              className="bg-white border border-slate-300 hover:border-[#0B7FF5] text-slate-900 text-xs font-semibold rounded-lg px-2.5 py-1 font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 transition-calm min-w-0 w-full max-w-full truncate cursor-pointer"
               title="Select camera feed (3 available)"
             >
-              {cameras.map((cam) => (
-                <option key={cam.id} value={cam.id}>
-                  {cam.id} - {cam.name} ({cam.location})
-                </option>
-              ))}
+              {cameras.map((cam) => {
+                const label = cam.name.startsWith(cam.id) ? cam.name : `${cam.id} - ${cam.name}`;
+                return (
+                  <option key={cam.id} value={cam.id}>
+                    {label} ({cam.location})
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 shrink-0">
           {/* Active CCTV File indicator */}
-          <div className="hidden sm:flex items-center space-x-1 font-mono text-[11px] text-slate-500 bg-slate-100 px-2 py-1 rounded-md border border-slate-200">
-            <Film className="w-3 h-3 text-[#0B7FF5]" />
-            <span>/cctv_footage/{currentCamera.cctvFilename}</span>
+          <div className="hidden sm:flex items-center space-x-1 font-mono text-[11px] text-slate-500 bg-slate-100 px-2 py-1 rounded-md border border-slate-200 shrink-0">
+            <Film className="w-3 h-3 text-[#0B7FF5] shrink-0" />
+            <span className="truncate max-w-[200px]">/cctv_footage/{currentCamera.cctvFilename}</span>
           </div>
-
-
 
           <button
             onClick={handleRefresh}
-            className="p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 transition-calm cursor-pointer"
+            className="p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-900 transition-calm cursor-pointer shrink-0"
             title="Refresh Stream / Rescan folder"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
